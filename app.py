@@ -1,16 +1,15 @@
-from flask import Flask, render_template, request
-
+from flask import Flask, render_template, request, jsonify
 app = Flask(__name__)
 
 @app.route('/')
-def index():
-    return get_page('default_username')  # 여기서 'default_username'을 원하는 기본 사용자 이름으로 변경하세요.
+def home():
+   return render_template('index.html')
 
-@app.route('/<username>')
-def get_page(username):
-    length = len(username)
-    return render_template("index.html", name=username, length=length)
+@app.route('/test', methods=['GET'])
+def test_get():
+   title_receive = request.args.get('title_give')
+   print(title_receive)
+   return jsonify({'result':'success', 'msg': '이 요청은 GET!'})
 
-if __name__ == "__main__":
-    app.run()
-    print('11111111')
+if __name__ == '__main__':
+   app.run('0.0.0.0',port=5000,debug=True)
